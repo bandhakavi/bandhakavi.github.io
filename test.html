@@ -5,7 +5,7 @@
 </svg>
 <script>
 async function init() {
-  const data = await d3.csv('https://github.com/bandhakavi/bandhakavi.github.io/blob/master/cars_dataset.csv');
+  const data = await d3.csv('https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master/cars_dataset.csv');
   var x = d3.scaleTime()range([70,82]);
   var y = d3.scaleLinear().range([5,50]);
   d3.selectAll('svg')
