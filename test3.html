@@ -77,7 +77,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
   // Add dots
   svg.append('g')
     .selectAll("dot")
-    .data(data)
+    .data(data.filter(function(d){ return d.class == "luxury" }))
     .enter()
     .append("circle")
       .attr("cx", function (d) { return x(d.year); } )
