@@ -29,6 +29,10 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
   // Now I can use this dataset:
   function(data) {
 
+    var sumstat = d3.nest() // nest function allows to group the calculation per level of a factor
+    .key(function(d) { return d.make;})
+    .entries(data);
+
     // Add X axis --> it is a date format
     var x = d3.scaleLinear()
       .domain([70,82])
@@ -44,6 +48,10 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     svg.append("g")
       .call(d3.axisLeft(y));
 
+    var res = sumstat.map(function(d){ return d.key }) // list of group names
+    var color = d3.scaleSequential(d3.interpolatePiYG)
+     .domain(res);
+    
     // Add the line
     svg.append("path")
       .datum(data)
