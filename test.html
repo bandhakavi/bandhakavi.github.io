@@ -52,7 +52,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     
 //     // Add the line
     svg.append('g')
-      .selectAll('dot')
+      .selectAll("dot")
       .datum(data)
       .enter()
       .append("circle")
@@ -61,16 +61,6 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
       .attr("r", 1.5)
       .style("fill", "#69b3a2")
       
-        
-//         .attr("stroke", function(d){ return color(d.key); })
-//       .attr("stroke-width", 1.5)
-//       .attr("d", function(d){
-//           return d3.line()
-//             .x(function(d) { return x(d['model year']); })
-//             .y(function(d) { return y(d.mpg); })
-//             (d.values)        
-//     })
-
 })
 
 </script>
