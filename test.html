@@ -84,6 +84,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
       .attr("cy", function (d) { return y(d.mpg); } )
       .attr("r", 5)
       .style("fill", function (d) { return color(d.class) })
+      .style("opacity", 0.3)
     .on("mouseover", mouseover )
     .on("mousemove", mousemove )
     .on("mouseleave", mouseleave )
