@@ -25,15 +25,13 @@ var svg = d3.select("#my_dataviz")
 //Read the data
 d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master/cars_dataset.csv",
 
-  // When reading the csv, I must format variables:
-  // Now I can use this dataset:
   function(data) {
 
     var sumstat = d3.nest() // nest function allows to group the calculation per level of a factor
     .key(function(d) { return d.make;})
     .entries(data);
 
-    // Add X axis --> it is a date format
+    // Add X axis
     var x = d3.scaleLinear()
       .domain([70,82])
       .range([ 0, width ]);
@@ -48,22 +46,30 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     svg.append("g")
       .call(d3.axisLeft(y));
 
-    var res = sumstat.map(function(d){ return d.key }) // list of group names
-    var color = d3.scaleSequential(d3.interpolatePiYG)
-     .domain(res);
+//     var res = sumstat.map(function(d){ return d.key }) // list of group names
+//     var color = d3.scaleSequential(d3.interpolatePiYG)
+//      .domain(res);
     
-    // Add the line
-    svg.append("path")
+//     // Add the line
+    svg.append('g')
+      .selectAll('dot')
       .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", function(d){ return color(d.key); })
-      .attr("stroke-width", 1.5)
-      .attr("d", function(d){
-          return d3.line()
-            .x(function(d) { return x(d['model year']); })
-            .y(function(d) { return y(d.mpg); })
-            (d.values)        
-    })
+      .enter()
+      .append("circle")
+      .attr("cx", function (d) { return x(d['model year']); } )
+      .attr("cy", function (d) { return y(d.mpg); } )
+      .attr("r", 1.5)
+      .style("fill", "#69b3a2")
+      
+        
+//         .attr("stroke", function(d){ return color(d.key); })
+//       .attr("stroke-width", 1.5)
+//       .attr("d", function(d){
+//           return d3.line()
+//             .x(function(d) { return x(d['model year']); })
+//             .y(function(d) { return y(d.mpg); })
+//             (d.values)        
+//     })
 
 })
 
