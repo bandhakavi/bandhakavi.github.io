@@ -4,6 +4,8 @@
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 
+<select id="selectButton"></select>
+
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
 
@@ -26,6 +28,16 @@ var svg = d3.select("#my_dataviz")
 //Read the data
 d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master/cars_dataset.csv", function(data) {
 
+    
+  var allGroup = ["luxury","affordable"];
+  d3.select("#selectButton")
+    .selectAll('myOptions')
+    .data(allGroup)
+    .enter()
+    .append('option')
+    .text(function (d) { return d; }) // text showed in the menu
+    .attr("value", function (d) { return d; }) // corresponding value returned by the button
+    
   // Add X axis
   var x = d3.scaleLinear()
     .domain([69, 83])
@@ -63,6 +75,10 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
       .style("top", (d3.mouse(this)[1]) + "px")
   }
 
+  var onfilter =  function getFilteredData(data, group) {
+            return data.filter(function(point) { return point.group === parseInt(group); });
+        }
+    
   // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
   var mouseleave = function(d) {
     tooltip
@@ -75,7 +91,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     .range([ "#440154ff", "#21908dff"])  
 
   // Add dots
-  svg.append('g')
+  var points = svg.append('g')
     .selectAll("dot")
     .data(data)
     .enter()
@@ -89,6 +105,30 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     .on("mousemove", mousemove )
     .on("mouseleave", mouseleave )
 
+  function update(selectedGroup) {
+
+      // Create new data with the selection?
+      var dataFilter = data.filter(function(d){return d.class==selectedGroup})
+
+      // Give these new data to update line
+      points
+          .datum(dataFilter)
+          .transition()
+          .duration(1000)
+          .attr("cx", function (d) { return x(d.year); } )
+          .attr("cy", function (d) { return y(d.mpg); } )
+          .attr("r", 1.5)
+          .style("fill", function (d) { return color(d.class) })
+    }
+
+    d3.select("#selectButton").on("change", function(d) {
+        // recover the option that has been chosen
+        var selectedOption = d3.select(this).property("value")
+        // run the updateChart function with this selected option
+        update(selectedOption)
+    })
+ 
+  
 })
 
 </script>
