@@ -86,7 +86,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     .range([ "#440154ff", "#21908dff"])  
 
   // Add dots
-  svg.append('g')
+  var line = svg.append('g')
     .selectAll("dot")
     .data(data.filter(function(d){ return d.class == "luxury" }))
     .enter()
