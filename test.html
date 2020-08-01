@@ -56,12 +56,14 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     svg.append("path")
       .datum(data)
       .attr("fill", "none")
-      .attr("stroke", "steelblue")
+      .attr("stroke", function(d){ return color(d.key); })
       .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d['model year']) })
-        .y(function(d) { return y(d.mpg) })
-        )
+      .attr("d", function(d){
+          return d3.line()
+            .x(function(d) { return x(d['model year']); })
+            .y(function(d) { return y(d.mpg); })
+            (d.values)        
+    })
 
 })
 
