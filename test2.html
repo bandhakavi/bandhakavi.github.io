@@ -93,7 +93,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
   // Add dots
   var points = svg.append('g')
     .selectAll("dot")
-    .data(data)
+    .datum(data.filter(function(d){return d.class==allGroup[0]}))
     .enter()
     .append("circle")
       .attr("cx", function (d) { return x(d.year); } )
