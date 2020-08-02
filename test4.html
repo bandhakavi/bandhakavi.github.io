@@ -117,9 +117,14 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
           .style("opacity", 0.8)
     }  
 
-    function exitPoints(data) {
-      svg.selectAll(".point")
-          .data(data)
+    function exitPoints(selectedGroup) {
+      var dataFilter = data.filter(function(d){return d.class != selectedGroup})
+
+      // Give these new data to update line
+      line
+          .data(dataFilter)
+          .transition()
+          .duration(1000)
           .exit()
           .remove();
     }
@@ -135,6 +140,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
         // recover the option that has been chosen
         var selectedOption = d3.select(this).property("value")
         // run the updateChart function with this selected option
+        exitPoints(selectedOption)
         update(selectedOption)
     })
     
