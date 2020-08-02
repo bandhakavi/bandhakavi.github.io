@@ -10,7 +10,16 @@ p {
     padding-left: 30px;
 }
 
+.column {
+	float: left;
+	width: 50%;
+}
 
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
 .d3-tip {
   line-height: 1;
   font-weight: bold;
