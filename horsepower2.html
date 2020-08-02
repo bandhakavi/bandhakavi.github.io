@@ -303,8 +303,8 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
   .attr('transform', function(d, i) {                     // NEW
     var height = legendRectSize + legendSpacing;          // NEW
     var offset =  height * color.domain().length / 2;     // NEW
-    var horz = 2 * legendRectSize + 80;                       // NEW
-    var vert = i * height - offset + 30;                       // NEW
+    var horz = 2 * legendRectSize + 200;                       // NEW
+    var vert = i * height - offset + 50;                       // NEW
     return 'translate(' + horz + ',' + vert + ')';        // NEW
   });
 	
