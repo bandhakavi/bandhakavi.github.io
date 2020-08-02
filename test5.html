@@ -28,7 +28,7 @@ var svg = d3.select("#my_dataviz")
 //Read the data
 d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master/cars_dataset.csv", function(data) {
 
-  var allGroup = ["none","luxury","affordable"];
+  var allGroup = [" ","luxury","affordable"];
   d3.select("#selectButton")
     .selectAll('myOptions')
     .data(allGroup)
@@ -103,7 +103,10 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     function update(selectedGroup) {
 
       // Create new data with the selection?
-      var dataFilter = data.filter(function(d) {return d.class == selectedGroup})
+      if (selectedGroup != " ") {
+        var dataFilter = data.filter(function(d) {return d.class == selectedGroup})}
+      else {
+        var dataFilter = data}
 
       // Give these new data to update line
       svg.append('g')
