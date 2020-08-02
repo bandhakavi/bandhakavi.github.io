@@ -219,7 +219,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
   var tool_tip = d3.tip()
     .attr("class", "d3-tip")
     .offset([-8, 0])
-    .html(function(d) { return "Model: " + d.model + "; Mpg: " + d.mpg; });
+    .html(function(d) { return "Model: " + d.model + "; mpg: " + d.mpg; });
   svg.call(tool_tip);
   
   var color = d3.scaleOrdinal()
