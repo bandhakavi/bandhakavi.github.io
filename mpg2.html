@@ -261,9 +261,8 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
           .attr("r", 5)
           .style("fill", function (d) { return color(d.class) })
           .style("opacity", 0.8)
-        .on("mouseover", showTooltip )
-        .on("mousemove", moveTooltip )
-        .on("mouseleave", hideTooltip )
+	    .on("mouseover", tool_tip.show )
+	    .on("mouseleave", tool_tip.hide )
     }  
 
     function exitPoints(selectedGroup) {
