@@ -118,7 +118,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     }  
 
     function exitPoints(selectedGroup) {
-      var dataFilter = data.filter(function(d){return d.class != selectedGroup})
+//       var dataFilter = data.filter(function(d){return d.class != selectedGroup})
 
       svg.selectAll("circle")
           .data(dataFilter)
