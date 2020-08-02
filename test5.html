@@ -28,7 +28,7 @@ var svg = d3.select("#my_dataviz")
 //Read the data
 d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master/cars_dataset.csv", function(data) {
 
-  var allGroup = ["luxury","affordable"];
+  var allGroup = ["none","luxury","affordable"];
   d3.select("#selectButton")
     .selectAll('myOptions')
     .data(allGroup)
@@ -88,7 +88,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
   // Add dots
   svg.append('g')
     .selectAll("dot")
-    .data(data.filter(function(d){ return d.class == allGroup[0] }))
+    .data(data)
     .enter()
     .append("circle")
       .attr("cx", function (d) { return x(d.year); } )
