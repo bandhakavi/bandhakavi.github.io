@@ -122,7 +122,8 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
 
       svg.selectAll("dot")
         .data(data)
-         .remove();
+        .exit()
+        .remove();
     }
 
     function updatePoints(data) {
