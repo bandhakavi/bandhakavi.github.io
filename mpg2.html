@@ -166,7 +166,10 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     .text(function (d) { return d; }) // text showed in the menu
     .attr("value", function (d) { return d; }) // corresponding value returned by the button
 
-    // Add X axis
+         var legendRectSize = 18;                                  // NEW
+        var legendSpacing = 4;                                    // NEW
+
+	// Add X axis
   var x = d3.scaleLinear()
     .domain([69, 83])
     .range([ 0, width ]);
