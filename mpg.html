@@ -47,14 +47,15 @@ p {
 <p style="text-align:center">
 They sure are getting more powerful and also efficient! If efficiency is inversly proportional to engine capacity, how are they doing it?</b>
 <br>
+<br>
 The following charts try to answer that
 </p>
 
 </div>
-<div id="drop" align=center><b>Select A Year</b>  </div>
+<div id="selectButton" align=center><b>Select A Class</b>  </div>
 </div>
 <div id=chart align=center>
-<p> <h4>Loan Amount Analysis by Year and Purpose of Loan</h4></p>
+<p> <h4>Fuel Efficiencies of Affordable and Luxury classes of cars</h4></p>
 <svg></svg>
 </div>
 <footer>
@@ -105,196 +106,146 @@ Then the TSV file was created by SparkDataFrame
 </div>
 </div>
 
-
-  <p><a href= "https://www.linkedin.com/in/sravan-kumar-gardas/">Author Sravan Gardas <a></p>
-  <p> CS498 Data Visualization UIUC</p>
 </footer>
 </body>
-<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/d3.v4.js"></script>
 <script src="scripts/d3_tip.js"></script>
 <script>
 
-var margin = {top: 10, right: 180, bottom: 150, left: 180},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
-var svg = d3.select("svg")
-	.attr("width", width + margin.left + margin.right)
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-	.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	
-	  var tip = d3.tip()
- .attr('class', 'd3-tip')
-.offset([-10, 0])
-.html(function(d) {
-return "<strong>LoanAmnt:</strong> <span style='color:red'>" +"0"+ "</span>";
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+//Read the data
+d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master/cars_dataset.csv", function(data) {
+
+  var allGroup = [" ","luxury","affordable"];
+  d3.select("#selectButton")
+    .selectAll('myOptions')
+    .data(allGroup)
+    .enter()
+    .append('option')
+    .text(function (d) { return d; }) // text showed in the menu
+    .attr("value", function (d) { return d; }) // corresponding value returned by the button
+
+    // Add X axis
+  var x = d3.scaleLinear()
+    .domain([69, 83])
+    .range([ 0, width ]);
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([5, 50])
+    .range([ height, 0]);
+  svg.append("g")
+    .call(d3.axisLeft(y));
+        
+  var tooltip = d3.select("#my_dataviz")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+
+  var mouseover = function(d) {
+    tooltip
+      .style("opacity", 1)
+  }
+
+  var mousemove = function(d) {
+    tooltip
+      .html("make and model: " + d.model)
+      .style("left", (d3.mouse(this)[0]) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+      .style("top", (d3.mouse(this)[1]) + "px")
+  }
+
+  // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
+  var mouseleave = function(d) {
+    tooltip
+      .transition()
+      .duration(200)
+      .style("opacity", 0)
+  }    
+  var color = d3.scaleOrdinal()
+    .domain(["luxury", "affordable"])
+    .range([ "#440154ff", "#21908dff"])  
+
+  // Add dots
+  svg.append('g')
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+      .attr("cx", function (d) { return x(d.year); } )
+      .attr("cy", function (d) { return y(d.mpg); } )
+      .attr("r", 5)
+      .style("fill", function (d) { return color(d.class) })
+      .style("opacity", 0.8)
+    .on("mouseover", mouseover )
+    .on("mousemove", mousemove )
+    .on("mouseleave", mouseleave )
+
+    function update(selectedGroup) {
+
+      // Create new data with the selection?
+      if (selectedGroup != " ") {
+        var dataFilter = data.filter(function(d) {return d.class == selectedGroup})}
+      else {
+        var dataFilter = data}
+
+      // Give these new data to update line
+      svg.append('g')
+        .selectAll("dot")
+        .data(dataFilter)
+        .enter()
+        .append("circle")
+          .attr("cx", function (d) { return x(d.year); } )
+          .attr("cy", function (d) { return y(d.mpg); } )
+          .attr("r", 5)
+          .style("fill", function (d) { return color(d.class) })
+          .style("opacity", 0.8)
+        .on("mouseover", mouseover )
+        .on("mousemove", mousemove )
+        .on("mouseleave", mouseleave )
+    }  
+
+    function exitPoints(selectedGroup) {
+      var dataFilter = data.filter(function(d){return d.class != selectedGroup})
+
+      svg.selectAll('circle').remove();
+    }
+
+    function updatePoints(data) {
+      svg.selectAll(".point")
+          .data(data)
+          .transition()
+          .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+    } 
+   
+    d3.select("#selectButton").on("change", function(d) {
+        // recover the option that has been chosen
+        var selectedOption = d3.select(this).property("value")
+        // run the updateChart function with this selected option
+        exitPoints(selectedOption)
+        update(selectedOption)
+    })
+    
 })
 
-
-var formatPercent = d3.format("s");
-	
-	svg.call(tip);
-
-d3.tsv("data/LoanByYear.tsv", function(error, data){
-
-	// filter year
-	var data = data.filter(function(d){return d.Year == '2012';});
-	// Get every column value
-	var elements = Object.keys(data[0])
-		.filter(function(d){
-			return ((d != "Year") & (d != "State"));
-		});
-	var selection = elements[0];
-
-	var y = d3.scale.linear()
-			.domain([0, d3.max(data, function(d){
-				return +d[selection];
-			})])
-			.range([height, 0]);
-
-	var x = d3.scale.ordinal()
-			.domain(data.map(function(d){ return d.State;}))
-			.rangeBands([0, width]);
-
-
-	var xAxis = d3.svg.axis()
-		.scale(x)
-	    .orient("bottom");
-
-	var yAxis = d3.svg.axis()
-		.scale(y)
-	    .orient("left")
-		.tickFormat (function (d) { return formatPercent(d).replace('G', 'B'); }); 
- 		
-
-
-	svg.append("g")
-    	.attr("class", "x axis")
-    	.attr("transform", "translate(0," + height + ")")
-    	.call(xAxis)
-    	.selectAll("text")
-    	.style("font-size", "10px")
-      	.style("text-anchor", "end")
-      	.attr("dx", "-.8em")//this is moving the axis lable
-      	.attr("dy", "-.15em")//this is moving to after the tick
-      	.attr("transform", "rotate(-50)" );
-
-
- 	svg.append("g")
-    	.attr("class", "y axis")
-    	.call(yAxis);
-
-	svg.selectAll("rectangle")
-		.data(data)
-		.enter()
-		.append("rect")
-		.attr("class","rectangle")
-		.attr("width", width/data.length)
-		.attr("height", function(d){
-			return height - y(+d[selection]);
-		})
-		.attr("x", function(d, i){
-			return (width / data.length) * i ;
-		})
-		.attr("y", function(d){
-			return y(+d[selection]);
-		})
-		.append("title")
-		.text(function(d){
-			return d.State + " : $" + d[selection];
-		});
-	 
-	 
-		//axis label
-    svg.append("text")
-        .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.bottom-30) + ")")
-		.attr("dx", "-.55em")
-        .style("text-anchor", "middle")
-		.attr("font-weight", "bold")
-		.style("font-size", "12px")
-        .text("Purpose Of Loan");
-	// y axis label	
-     svg.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 120 - (margin.left))
-        .attr("x",0 - (height / 2))
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-		.attr("font-weight", "bold")
-		.style("font-size", "12px")
-        .text("Loan Amount $"); 
-
-	var selector = d3.select("#drop")
-    	.append("select")
-    	.attr("id","dropdown")
-    	.on("change", function(d){
-        	selection = document.getElementById("dropdown");
-
-        	y.domain([0, d3.max(data, function(d){
-				return +d[selection.value];})]);
-
-        	yAxis.scale(y);
-
-        	d3.selectAll(".rectangle")
-           		.transition()
-	            .attr("height", function(d){
-					return height - y(+d[selection.value]);
-				})
-				.attr("x", function(d, i){
-					return (width / data.length) * i ;
-				})
-				.attr("y", function(d){
-					return y(+d[selection.value]);
-				})
-				//.on('mouseover', tip.show)
-                //.on('mouseout', tip.hide)
-		   		.ease("linear")
-           		.select("title")
-           		.text(function(d){
-           			return d.State + " : $" + d[selection.value];
-           		}) ;
-			
-		
-           	d3.selectAll("g.y.axis")
-           		.transition()
-           		.call(yAxis);
-
-         });
-
-    selector.selectAll("option")
-      .data(elements)
-      .enter().append("option")
-      .attr("value", function(d){
-        return d;
-      })
-      .text(function(d){
-        return d;
-      })
-
-
-});
-
-</script>
-<script>
-function openCity(evt, cityName) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
 </script>
