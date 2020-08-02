@@ -88,7 +88,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
   // Add dots
   var line = svg.append('g')
     .selectAll("dot")
-    .data(data.filter(function(d){ return d.class == allGroup[0] }))
+    .data(data.filter(function(d){ return d.class == allGroup[1] }))
     .enter()
     .append("circle")
       .attr("cx", function (d) { return x(d.year); } )
@@ -120,11 +120,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     function exitPoints(selectedGroup) {
       var dataFilter = data.filter(function(d){return d.class != selectedGroup})
 
-      line
-        .selectAll("dot")
-//         .data(data)
-//         .exit()
-        .remove();
+      line.remove();
     }
 
     function updatePoints(data) {
