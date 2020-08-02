@@ -3,59 +3,7 @@
 
 <script src="https://d3js.org/d3.v4.js"></script>
 
-<head>
 
-<style>
-p {
-    padding-right: 30px;
-   
-    padding-left: 30px;
-}
-
-
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
-
-/* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
-}
-
-</style>
-</head>
-<body>
-<div class="tab">
-  <button class="tablinks" onclick="location.href='mpg.html' ;" disabled> Fuel Efficiency</button>
-  <button class="tablinks" onclick="location.href='capacity.html' ;"> Engine Capacity </button>
-  <button class="tablinks" onclick="location.href='weight.html' ;"> Car Weight</button>
-  <button class="tablinks" onclick="location.href='LoanAmountByGrade.html' ;"> Loan Amounts By Grade</button>
-</div>
-<div>
-	<p style="text-align:center"> <b> How are cars changing over time? </b>
-</p>
-<p style="text-align:center">
-They sure are getting more powerful and also efficient! If efficiency is inversly proportional to engine capacity, how are they doing it?</b>
-<br>
-<br>
-The following charts try to answer that
-</p>
-
-</div>
-<p> <h4>Fuel Efficiencies of Affordable and Luxury classes of cars</h4></p>
 
 <select id="selectButton"></select>
 
