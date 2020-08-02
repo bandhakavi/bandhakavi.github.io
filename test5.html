@@ -103,7 +103,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     function update(selectedGroup) {
 
       // Create new data with the selection?
-      var dataFilter = data.filter(function(d){if (selectedGroup == "none") {return true} else {return d.class == selectedGroup})
+      var dataFilter = data.filter(function(d) {return d.class == selectedGroup})
 
       // Give these new data to update line
       svg.append('g')
