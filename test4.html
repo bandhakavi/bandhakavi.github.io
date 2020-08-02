@@ -88,7 +88,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
   // Add dots
   var line = svg.append('g')
     .selectAll("dot")
-    .data(data.filter(function(d){ return d.class == allGroup[0] }))
+    .data(data.filter(function(d){ return d.class == allGroup[1] }))
     .enter()
     .append("circle")
       .attr("cx", function (d) { return x(d.year); } )
@@ -117,27 +117,10 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
           .style("opacity", 0.8)
     }  
 
-    function exitPoints(selectedGroup) {
-//       var dataFilter = data.filter(function(d){return d.class != selectedGroup})
-
-      svg.selectAll("circle")
-//           .data(dataFilter)
-//           .exit()
-          .remove();
-    }
-
-    function updatePoints(data) {
-      svg.selectAll(".point")
-          .data(data)
-          .transition()
-          .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
-    } 
    
     d3.select("#selectButton").on("change", function(d) {
         // recover the option that has been chosen
         var selectedOption = d3.select(this).property("value")
-        // run the updateChart function with this selected option
-//         exitPoints(selectedOption)
         update(selectedOption)
     })
     
