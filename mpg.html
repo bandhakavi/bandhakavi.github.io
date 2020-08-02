@@ -166,25 +166,28 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
       .style("padding", "10px")
       .style("color", "white")
 
-  var mouseover = function(d) {
+  var showTooltip = function(d) {
+    tooltip
+      .transition()
+      .duration(200)
     tooltip
       .style("opacity", 1)
+      .html("Country: " + d.model)
+      .style("left", (d3.mouse(this)[0]+30) + "px")
+      .style("top", (d3.mouse(this)[1]+30) + "px")
   }
-
-  var mousemove = function(d) {
+  var moveTooltip = function(d) {
     tooltip
-      .html("make and model: " + d.model)
-      .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
-      .style("top", (d3.mouse(this)[1]) + "px")
+      .style("left", (d3.mouse(this)[0]+30) + "px")
+      .style("top", (d3.mouse(this)[1]+30) + "px")
   }
-
-  // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
-  var mouseleave = function(d) {
+  var hideTooltip = function(d) {
     tooltip
       .transition()
       .duration(200)
       .style("opacity", 0)
-  }    
+  }
+  
   var color = d3.scaleOrdinal()
     .domain(["luxury", "affordable"])
     .range([ "#440154ff", "#21908dff"])  
@@ -200,9 +203,9 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
       .attr("r", 5)
       .style("fill", function (d) { return color(d.class) })
       .style("opacity", 0.8)
-    .on("mouseover", mouseover )
-    .on("mousemove", mousemove )
-    .on("mouseleave", mouseleave )
+    .on("mouseover", showTooltip )
+    .on("mousemove", moveTooltip )
+    .on("mouseleave", hideTooltip )
 
     function update(selectedGroup) {
 
@@ -223,9 +226,9 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
           .attr("r", 5)
           .style("fill", function (d) { return color(d.class) })
           .style("opacity", 0.8)
-        .on("mouseover", mouseover )
-        .on("mousemove", mousemove )
-        .on("mouseleave", mouseleave )
+        .on("mouseover", showTooltip )
+        .on("mousemove", moveTooltip )
+        .on("mouseleave", hideTooltip )
     }  
 
     function exitPoints(selectedGroup) {
