@@ -107,6 +107,7 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
 
       // Give these new data to update line
       line
+          .selectAll("dot")
           .data(dataFilter)
           .enter()
           .append("circle")
@@ -122,10 +123,8 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     function exitPoints(selectedGroup) {
 //       var dataFilter = data.filter(function(d){return d.class != selectedGroup})
 
-      svg.selectAll("circle")
-//           .data(dataFilter)
-//           .exit()
-          .remove();
+      svg.selectAll("dot")
+         .remove();
     }
 
     function updatePoints(data) {
