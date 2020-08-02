@@ -99,33 +99,25 @@ The following charts try to answer that using UCI Machine Learning Repository ca
 </p>
 <p>
 <b>Key Observations</b>
-We see a general trend of increasing fuel efficiency. And this is evident for both luxury and affordable classes of vechicles.
+<p> We see a general trend of increasing fuel efficiency. And this is evident for both luxury and affordable classes of vechicles. </p>
 </p>
 <p>
 <b>User Interface Elements</b>
-<ul> The chart can be filtered by the vehicle class using the filter.
+<ul> Different charts can be navigated to using the hyperlinks
+<ul> The chart can be <b> filtered by the vehicle class </b> using the filter. Luxury class of vehicles are colored purple while Affordable class are colored green.
 <ul> Mouse hover individual elements to view the make, model and the fuel efficiency of the car
 </p>
 <p>
 <b>Annotations</b>
-The Loan Year selection acts as a trigger to generate the chart for every year.
-The mouse click event acts as a trigger to faciliate navigation in this visualization presentation. 
-The mouse hover (mouseover) event is a trigger for the tooltip in the bar chart. 
-The mouse over event triggers the ToopTip to showup on the top of the Bar.</p>
+<p>
+The annotations for this chart are 
+</p>
 </p>
 <p>
 <b>Parameters</b>
-This section is hyper linked  to all the pages of the Narrative Visualization via Menu Buttons on the top. 
-The name of the target section is passed as an input paramter to the buttons and navgiation bar items. 
-The chart uses the D3 Library. 
-The data for the chart is passed from a TSV file which is stored in the data folder, which is then read by D3 for rendering axis,bars and tooltips for the chart. 
-The DropDown list is populated from Year field of the chart, the data is then filtered according to this selection.
-</p>
 <p>
-<b>Data Preparation:</b> 
-Lending club data was downloaded from here <a href= "https://www.lendingclub.com/info/download-data.action"> Download Lending Club Data </a>, from inception of Lending club in 2007 to 2017Q1 in the format of CSV files. 
-Data was cleaned by removing the headers and footers from all the 9 files using PySpark  and created a clean file with first row as the header and all the remaining 1 million rows as the values. Data with null values and data for year 2017 was filtered to give a better perspective for the data. 
-Then the TSV file was created by SparkDataFrame
+	The parameters for this chart are <b> mpg </b> and <b> year of manufacture </b>
+</p>
 </p>
 </div>
 </body>
