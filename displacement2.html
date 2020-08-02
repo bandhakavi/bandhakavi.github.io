@@ -55,7 +55,12 @@ p {
   top: 100%;
   left: 0;
 }
-
+.legend {                                                   /* NEW */
+font-size: 12px;                                          /* NEW */
+}                                                           /* NEW */
+rect {                                                      /* NEW */
+stroke-width: 2;                                          /* NEW */
+} 
 </style>
 </head>
 <body>
@@ -159,6 +164,9 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
     .append('option')
     .text(function (d) { return d; }) // text showed in the menu
     .attr("value", function (d) { return d; }) // corresponding value returned by the button
+
+        var legendRectSize = 18;                                  // NEW
+        var legendSpacing = 4;                                    // NEW
 
     // Add X axis
   var x = d3.scaleLinear()
@@ -286,6 +294,18 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
         exitPoints(selectedOption)
         update(selectedOption)
     })
+
+	        legend.append('rect')                                     // NEW
+          .attr('width', legendRectSize)                          // NEW
+          .attr('height', legendRectSize)                         // NEW
+          .style('fill', color)                                   // NEW
+          .style('stroke', color);                                // NEW
+          
+        legend.append('text')                                     // NEW
+          .attr('x', legendRectSize + legendSpacing)              // NEW
+          .attr('y', legendRectSize - legendSpacing)              // NEW
+          .text(function(d) { return d; });                       // NEW
+
     
 })
 
