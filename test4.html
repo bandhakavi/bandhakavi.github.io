@@ -116,7 +116,14 @@ d3.csv("https://raw.githubusercontent.com/bandhakavi/bandhakavi.github.io/master
           .style("fill", function (d) { return color(selectedGroup) })
           .style("opacity", 0.8)
     }  
-  
+
+    d3.select("#selectButton").on("change", function(d) {
+        // recover the option that has been chosen
+        var selectedOption = d3.select(this).property("value")
+        // run the updateChart function with this selected option
+        update(selectedOption)
+    })
+    
 })
 
 </script>
